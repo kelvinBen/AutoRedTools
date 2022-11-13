@@ -1,0 +1,241 @@
+[
+  {
+    "dir_name": "信息收集",
+    "tools_list": {
+      "AppInfoScanner": {
+        "url": "https://github.com/kelvinBen/AppInfoScanner",
+        "type": "source",
+        "platform": {}
+      },
+      "OneForAll": {
+        "url": "https://github.com/shmilylty/OneForAll",
+        "type": "source",
+        "platform": {}
+      },
+      "Kunyu": {
+        "url": "https://github.com/knownsec/Kunyu",
+        "type": "source",
+        "platform": {}
+      },
+      "Glass": {
+        "url": "https://github.com/s7ckTeam/Glass",
+        "type": "source",
+        "platform": {}
+      },
+      "scaninfo": {
+        "url": "https://github.com/redtoolskobe/scaninfo",
+        "type": "binary",
+        "platform": {
+          "win32": "scaninfo_windows_x64.exe",
+          "darwin": "scaninfo_macos",
+          "linux": "scaninfo_linux_x64"
+        }
+      },
+      "ksubdomain": {
+        "url": "https://github.com/boy-hack/ksubdomain",
+        "type": "binary",
+        "platform": {
+          "win32": "windows",
+          "darwin": "darwin",
+          "linux": "linux"
+        }
+      },
+      "EmailAll": {
+        "url": "https://github.com/Taonn/EmailAll",
+        "type": "source",
+        "platform": {}
+      },
+      "subDomainsBrute": {
+        "url": "https://github.com/lijiejie/subDomainsBrute",
+        "type": "source",
+        "platform": {}
+      }
+    }
+  },
+  {
+    "dir_name": "漏洞扫描",
+    "tools_list": {
+      "xray": {
+        "url": "https://github.com/chaitin/xray",
+        "type": "binary",
+        "platform": {
+          "win32": {
+            "i386": "xray_windows_386.exe",
+            "x86_64": "xray_windows_amd64"
+          },
+          "darwin": {
+            "x86_64": "xray_darwin_amd64",
+            "arm64": "xray_darwin_arm64"
+          },
+          "linux": {
+            "i386": "xray_linux_386",
+            "x86_64": "xray_linux_amd64",
+            "arm64": "xray_linux_arm64"
+          }
+        }
+      },
+      "Kunpeng": {
+        "url": "https://github.com/opensec-cn/kunpeng",
+        "type": "binary",
+        "platform": {
+          "win32": "windows",
+          "darwin": "darwin",
+          "linux": "linux"
+        }
+      },
+      "FuYao": {
+        "url": "https://github.com/ExpLangcn/FuYao",
+        "type": "source",
+        "platform": {}
+      },
+      "afrog": {
+        "url": "https://github.com/zan8in/afrog",
+        "type": "binary",
+        "platform": {
+          "win32": "win",
+          "darwin": {
+            "x86_64": "macos.tar.gz",
+            "arm64": "macos_arm64"
+          },
+          "linux": {
+            "x86_64": "linux.tar.gz",
+            "arm64": "linux_arm64"
+          }
+        }
+      },
+      "vulmap": {
+        "url": "https://github.com/zhzyker/vulmap",
+        "type": "source",
+        "platform": {}
+      }
+    }
+  },
+  {
+    "dir_name": "内网工具",
+    "tools_list": {
+      "frp": {
+        "url": "https://github.com/fatedier/frp",
+        "type": "binary",
+        "platform": {
+          "win32": {
+            "i386": "windows_386",
+            "x86_64": "windows_amd64"
+          },
+          "darwin": {
+            "x86_64": "darwin_amd64",
+            "arm64": "darwin_arm64"
+          },
+          "linux": {
+            "x86_64": "Ladon64.lnx",
+            "arm": "linux_arm",
+            "arm64": "linux_arm64"
+          }
+        }
+      }
+    },
+    "LadonGo": {
+      "url": "https://github.com/k8gege/LadonGo",
+      "type": "binary",
+      "platform": {
+        "win32": {
+          "i386": "Ladon.exe",
+          "x86_64": "Ladon64.exe"
+        },
+        "darwin": {
+          "x86_64": "Ladon.mac",
+          "arm64": "Ladon64.arm"
+        },
+        "linux": {
+          "x86_64": "Ladon64.lnx",
+          "arm64": "Ladon64.arm"
+        }
+      }
+    }
+  },
+  {
+    "dir_name": "免杀提权",
+    "tools_list": {
+      "nim_shellloader": {
+        "url": "https://github.com/sh3d0ww01f/nim_shellloader",
+        "type": "source",
+        "platform": {}
+      }
+    }
+  },
+  {
+    "dir_name": "漏洞验证",
+    "tools_list": {
+      "sqlmap": {
+        "url": "https://github.com/sqlmapproject/sqlmap",
+        "type": "source",
+        "platform": {}
+      }
+    }
+  },
+  {
+    "dir_name": "CTF",
+    "tools_list": {
+      "pwntools": {
+        "url": "https://github.com/Gallopsled/pwntools",
+        "type": "source",
+        "platform": {}
+      }
+    }
+  },
+  {
+    "dir_name": "插件辅助",
+    "tools_list": {
+      "HaE": {
+        "url": "https://github.com/gh0stkey/HaE",
+        "type": "binary",
+        "platform": {
+          "java": "HaE"
+        }
+      }
+    }
+  },
+  {
+    "dir_name": "WebShell",
+    "tools_list": {
+      "Behinder": {
+        "url": "https://github.com/rebeyond/Behinder",
+        "type": "binary",
+        "platform": {
+          "java": "behinder"
+        }
+      },
+      "Godzilla": {
+        "url": "https://github.com/BeichenDream/Godzilla",
+        "type": "binary",
+        "platform": {
+          "java": "godzilla"
+        }
+      },
+      "AntSword": {
+        "url": "https://github.com/AntSwordProject/antSword",
+        "type": "source",
+        "platform": {}
+      },
+      "AntSword-Loader": {
+        "url": "https://github.com/AntSwordProject/AntSword-Loader",
+        "type": "binary",
+        "platform": {
+          "win32": {
+            "i386": "win32-ia32",
+            "x86_64": "win32-x64"
+          },
+          "darwin": {
+            "x86_64": "darwin-x64",
+            "arm64": "darwin-x64"
+          },
+          "linux": {
+            "i386": "linux-ia32",
+            "x86_64": "linux-x64",
+            "arm": "linux-ia32",
+            "arm64": "linux-arm64"
+          }
+        }
+      }
+    }
+  }
+]
