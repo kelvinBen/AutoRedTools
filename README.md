@@ -2,7 +2,7 @@
 
 ## AutoRedTools
 
-AutoRedTools是一款轻量级一站式自动下载/自动更新安全从业人员常用开源的工具，帮助安全从业者快速进行渗透工具的下载以及更新，节约大量环境安装和更新时间。
+AutoRedTools是一款轻量级一站式自动下载/自动更新安全从业人员常用开源工具的工具，帮助安全从业者快速进行渗透工具的下载以及更新，节约大量环境安装和更新时间。
 
 (注：本工具使用GitHub API能力，需要配置GitHub Token，未配置GitHub Token会被GitHub限制IP访问)
 
@@ -79,50 +79,50 @@ AutoRedTools是一款轻量级一站式自动下载/自动更新安全从业人�
 
 ### 信息收集工具
 
-[x] AppInfoScanner
-[x] OneForAll
-[x] Kunyu
-[x] Glass
-[x] scaninfo
-[x] ksubdomain
-[x] EmailAll
-[x] subDomainsBrute
+- [x] AppInfoScanner
+- [x] OneForAll
+- [x] Kunyu
+- [x] Glass
+- [x] scaninfo
+- [x] ksubdomain
+- [x] EmailAll
+- [x] subDomainsBrute
 
 ### 漏洞扫描
 
-[x] xray
-[x] Kunpeng
-[x] FuYao
-[x] afrog
-[x] vulmap
+- [x] xray
+- [x] Kunpeng
+- [x] FuYao
+- [x] afrog
+- [x] vulmap
 
 ### 内网工具
 
-[x] frp
-[x] LadonGo
+- [x] frp
+- [x] LadonGo
 
 ### 免杀提权
 
-[x] nim_shellloader
+- [x] nim_shellloader
 
 ### 漏洞验证
 
-[x] sqlmap
+- [x] sqlmap
 
 ### CTF
 
-[x] pwntools
+- [x] pwntools
 
 ### 插件辅助
 
-[x] HaE
+- [x] HaE
 
 ### WebShell
 
-[x] Behinder
-[x] Godzilla
-[x] AntSword
-[x] AntSword-Loader
+- [x] Behinder
+- [x] Godzilla
+- [x] AntSword
+- [x] AntSword-Loader
 
 ## 自定义工具列表(tools.json)
 

@@ -36,7 +36,7 @@ def start(out_path, proxy, token) -> None:
     if not os.path.exists(out_path):
         os.makedirs(out_path) # 创建输出目录
 
-    with open("tools.json") as open_file:
+    with open(file="tools.json",encoding="utf8") as open_file:
         content = open_file.read()
         json_list = json.loads(content)
 
@@ -137,7 +137,7 @@ def download_tools(tools_download_url, tools_path, tools_name, tools_vesion) -> 
         try:
             if resp.status_code == requests.codes.ok:
                 print('文件: {} 正在下载中, 总大小为: {size:.2f} MB'.format(tools_name, size = content_length / 1024 / 1024))
-                with open(tools_file_path, "wb") as f:
+                with open(file=tools_file_path,mode="wb",encoding="utf8") as f:
                     for data in resp.iter_content(chunk_size=chunk_size):
                         current_download_size += len(data)
                         f.write(data)
