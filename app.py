@@ -197,10 +197,7 @@ if __name__ == "__main__":
         if (opt =="-o" or opt=="--out") and arg:
             out_path = arg
         elif (opt =="-t" or opt=="--token") and arg:
-            try:
-                token = int(arg)
-            except ValueError as e:
-                help()
+            token = arg
         elif (opt =="-p" or opt=="--proxy") and arg:
             proxy = arg
         else:
