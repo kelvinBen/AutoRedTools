@@ -10,26 +10,56 @@ import requests
 import platform
 import getopt
 import config
-
 from contextlib import closing
+from requests.adapters import HTTPAdapter
 
+proxy_flag = False
 proxies = {}
 headers = {
     "Content-Type": "application/json"
 }
+ghproxy = "https://ghproxy.com/"
+session = requests.session()
+session.proxies = proxies
+session.mount("http://", HTTPAdapter(max_retries=5))
+session.mount("https://", HTTPAdapter(max_retries=5))
+
+def __set__flag__(flag):
+    global proxy_flag
+    proxy_flag = flag
 
 def __set_proxy__(proxy):
-    if proxy or config.proxy:
-        # 配置 requests 代理
-        proxies["http"] = proxy
-        proxies["https"] = proxy
-        # 配置git代理
-        os.system("git config --global http.https://github.com.proxy %s" % (proxy))
-        os.system("git config --global https.https://github.com.proxy %s" % (proxy))
-
+    if not(proxy or config.proxy):
+        return
     
+    if proxy == ghproxy or config.proxy == ghproxy:
+        __set__flag__(True)
+        return
+
+    # 配置 requests 代理
+    proxies["http"] = proxy
+    proxies["https"] = proxy
+    # 配置git临时代理
+    os.system("git config --global http.https://github.com.proxy %s" % (proxy))
+    os.system("git config --global https.https://github.com.proxy %s" % (proxy))
+
+def __requsets__(url, headers=None, stream=False):
+    try:
+        if stream:
+            headers["Content-Type"] = "application/octet-stream"
+        
+        resp=session.get(url, headers=headers,stream=True, timeout=(10,20))
+        if resp.status_code == requests.codes.ok:
+            return resp
+    except requests.exceptions.ConnectTimeout as e:
+        print("链接github.com超时，请使用-p参数或者在config.py中配置代理后重试!!!")
+        exit()
+    finally:
+        resp.close()
+
 def start(out_path, proxy, token) -> None:
-    __set_proxy__(proxy) # 启动代理
+    __set_proxy__(proxy)
+
     if token or config.github_token:
         headers["Authorization"] = ("token %s") % (token)
 
@@ -45,7 +75,7 @@ def start(out_path, proxy, token) -> None:
             dir_path = os.path.join(out_path, dir_name)
 
             if not os.path.exists(dir_path):
-                os.makedirs(dir_path) # 创建分类目录
+                os.makedirs(dir_path)
             
             tools_list = json_obj["tools_list"]
             for tools_name, tools_json_obj in tools_list.items():
@@ -65,6 +95,8 @@ def clone_source_code(tools_path, dir_path, tools_url) -> None:
     '''
     if not os.path.exists(tools_path): # 使用clone拉取主分支代码
         git_url = tools_url + ".git"
+        if proxy_flag:
+            git_url =  ghproxy + tools_url + ".git"
         os.chdir(dir_path)
         os.system(("git clone %s") % git_url)
     else: # 更新代码到最新版本
@@ -90,33 +122,31 @@ def download_code_or_binary(tools_path, tools_url, platforms, tools_type) -> Non
         api_url = tools_url.replace("www", "")
     api_url = tools_url.replace("github.com", "api.github.com/repos") + "/releases/latest"
     
-    with closing(requests.get(url=api_url, proxies=proxies)) as resp:
-        if not (resp.status_code == requests.codes.ok):
-            return
+    resp = __requsets__(api_url,headers)
+    repos_json_obj = resp.json()
 
-        repos_json_obj = resp.json()
-        try:
-            tools_vesion = str(repos_json_obj["tag_name"])
-            assets_list = repos_json_obj["assets"]
-            zipball_url = repos_json_obj["zipball_url"] # 源代码
-        except KeyError as e: 
-            # 未发布正式版本就忽略
-            return
+    try:
+        tools_vesion = str(repos_json_obj["tag_name"])
+        assets_list = repos_json_obj["assets"]
+        zipball_url = repos_json_obj["zipball_url"] # 源代码
+    except KeyError as e: 
+        # 未发布正式版本就忽略
+        return
 
-        # 文件不存在，创建并下载
-        if not os.path.exists(tools_path):
-            os.makedirs(tools_path)
-        tools_name = ""
-        tools_download_url = zipball_url
-        if tools_type == "binary":
-            for assets in assets_list:
-                browser_download_url = assets["browser_download_url"]
-                if file_name in browser_download_url:
-                    tools_name = assets["name"]
-                    tools_download_url = browser_download_url
+    # 文件不存在，创建并下载
+    if not os.path.exists(tools_path):
+        os.makedirs(tools_path)
+    tools_name = ""
+    tools_download_url = zipball_url
+    if tools_type == "binary":
+        for assets in assets_list:
+            browser_download_url = assets["browser_download_url"]
+            if file_name in browser_download_url:
+                tools_name = assets["name"]
+                tools_download_url = browser_download_url
 
-        # TODO 是否需要更新二进制文件？期待反馈
-        download_tools(tools_download_url, tools_path, tools_name, tools_vesion)
+    # TODO 是否需要更新二进制文件？期待反馈
+    download_tools(tools_download_url, tools_path, tools_name, tools_vesion)
         
 def download_tools(tools_download_url, tools_path, tools_name, tools_vesion) -> None:
     new_file_name = tools_name + "_" + tools_vesion
@@ -130,22 +160,19 @@ def download_tools(tools_download_url, tools_path, tools_name, tools_vesion) -> 
     if os.path.exists(tools_file_path):
         return
     
-    with closing(requests.get(tools_download_url, proxies=proxies, stream=True)) as resp:
-        current_download_size = 0 # 已下载大小
-        chunk_size = 1024 * 1024 * 5 # 单次5MB大小的下载
-        content_length =  int(resp.headers["content-length"])
-        try:
-            if resp.status_code == requests.codes.ok:
-                print('文件: {} 正在下载中, 总大小为: {size:.2f} MB'.format(tools_name, size = content_length / 1024 / 1024))
-                with open(file=tools_file_path,mode="wb",encoding="utf8") as f:
-                    for data in resp.iter_content(chunk_size=chunk_size):
-                        current_download_size += len(data)
-                        f.write(data)
-                        print('\r' + '下载进度: %s%.2f%%' % ('=' * int(current_download_size * 50 / content_length), float(current_download_size / content_length * 100)), end=' ')
-        except Exception as e:
-            pass
-        finally:
-            resp.close()
+    resp = __requsets__(tools_download_url, headers, True)
+    current_download_size = 0 # 已下载大小
+    chunk_size = 1024 * 1024 * 5 # 单次5MB大小的下载
+    content_length =  int(resp.headers["content-length"])
+    try:
+        print('文件: {} 正在下载中, 总大小为: {size:.2f} MB'.format(tools_name, size = content_length / 1024 / 1024))
+        with open(file=tools_file_path,mode="wb",encoding="utf8") as f:
+            for data in resp.iter_content(chunk_size=chunk_size):
+                current_download_size += len(data)
+                f.write(data)
+                print('\r' + '下载进度: %s%.2f%%' % ('=' * int(current_download_size * 50 / content_length), float(current_download_size / content_length * 100)), end=' ')
+    except Exception as e:
+        pass
 
 def get_cpu_type():
     sys_platform = sys.platform
