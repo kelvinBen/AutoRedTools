@@ -14,6 +14,6 @@ def get_cpu_type():
         if "Apple" in cpu_type:
             return "arm64"
         else:
-            return "x86_64"
+            return "amd64"
     else:
         return platform.machine()

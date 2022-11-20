@@ -60,16 +60,17 @@
         "type": "binary",
         "platform": {
           "win32": {
-            "i386": "xray_windows_386.exe",
-            "x86_64": "xray_windows_amd64"
+            "x86": "xray_windows_386.exe",
+            "amd64": "xray_windows_amd64"
           },
           "darwin": {
-            "x86_64": "xray_darwin_amd64",
+            "x86": "xray_darwin_amd64",
+            "amd64": "xray_darwin_amd64",
             "arm64": "xray_darwin_arm64"
           },
           "linux": {
-            "i386": "xray_linux_386",
-            "x86_64": "xray_linux_amd64",
+            "x86": "xray_linux_386",
+            "amd64": "xray_linux_amd64",
             "arm64": "xray_linux_arm64"
           }
         }
@@ -94,11 +95,13 @@
         "platform": {
           "win32": "win",
           "darwin": {
-            "x86_64": "macos.tar.gz",
+            "x86": "macos.tar.gz",
+            "amd64": "macos.tar.gz",
             "arm64": "macos_arm64"
           },
           "linux": {
-            "x86_64": "linux.tar.gz",
+            "x86": "linux.tar.gz",
+            "amd64": "linux.tar.gz",
             "arm64": "linux_arm64"
           }
         }
@@ -118,15 +121,16 @@
         "type": "binary",
         "platform": {
           "win32": {
-            "i386": "windows_386",
-            "x86_64": "windows_amd64"
+            "x86": "windows_386",
+            "amd64": "windows_amd64"
           },
           "darwin": {
-            "x86_64": "darwin_amd64",
+            "x86": "darwin_amd64",
+            "amd64": "darwin_amd64",
             "arm64": "darwin_arm64"
           },
           "linux": {
-            "x86_64": "Ladon64.lnx",
+            "amd64": "Ladon64.lnx",
             "arm": "linux_arm",
             "arm64": "linux_arm64"
           }
@@ -138,15 +142,16 @@
       "type": "binary",
       "platform": {
         "win32": {
-          "i386": "Ladon.exe",
-          "x86_64": "Ladon64.exe"
+          "x86": "Ladon.exe",
+          "amd64": "Ladon64.exe"
         },
         "darwin": {
-          "x86_64": "Ladon.mac",
+          "x86": "Ladon.mac",
+          "amd64": "Ladon.mac",
           "arm64": "Ladon64.arm"
         },
         "linux": {
-          "x86_64": "Ladon64.lnx",
+          "amd64": "Ladon64.lnx",
           "arm64": "Ladon64.arm"
         }
       }
@@ -221,16 +226,18 @@
         "type": "binary",
         "platform": {
           "win32": {
-            "i386": "win32-ia32",
-            "x86_64": "win32-x64"
+            "x86": "win32-ia32",
+            "amd64": "win32-x64",
+            "arm64": "win32-x64"
           },
           "darwin": {
-            "x86_64": "darwin-x64",
+            "x86": "darwin-x64",
+            "amd64": "darwin-x64",
             "arm64": "darwin-x64"
           },
           "linux": {
-            "i386": "linux-ia32",
-            "x86_64": "linux-x64",
+            "x86": "linux-ia32",
+            "amd64": "linux-x64",
             "arm": "linux-ia32",
             "arm64": "linux-arm64"
           }

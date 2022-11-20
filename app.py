@@ -30,6 +30,7 @@ class Main():
 
     def start(self, out_path):
         self.__set_proxy__()
+        tools_name = ""
         with open(file=self.tools_path, encoding="utf8") as open_file:
             content = open_file.read()
             try:
@@ -60,7 +61,7 @@ class Main():
                 raise(CustomException(error_msg))
             except KeyError as e:
                 msg = re.sub(r'KeyError.*?:',"", str(e)).strip()
-                error_msg = ("配置文件: %s 中未检索到Key: %s ，请参考配置样例文件后重新输入!!!") % (self.tools_path,msg)
+                error_msg = ("%s, 配置文件: %s 中未检索到Key: %s ，请参考配置样例文件后重新输入!!!") % (tools_name,self.tools_path,msg)
                 raise(CustomException(error_msg))
             except Exception as e:
                 raise(e)
@@ -105,21 +106,25 @@ class Main():
         except KeyError as e:
             # 如果是Java版本则下载所有Java版本的
             sys_platform = platforms["java"]
-        except Exception as e:
-            raise(e)
-
-        if type(sys_platform) == type("str"):
-            # 如果是str类型则直接获取工具名称
-            file_name = sys_platform
-        else:
-            cpu_type = get_cpu_type()  # 获取CPU类型
-            file_name = sys_platform[cpu_type]
-
-        if "www" in tools_url:
-            api_url = tools_url.replace("www", "")
-        api_url = tools_url.replace("github.com", "api.github.com/repos") + "/releases/latest"
 
         try:
+            if type(sys_platform) == type("str"): 
+                # 如果是str类型则直接获取工具名称
+                file_name = sys_platform
+            else:
+                cpu_type = get_cpu_type().lower()  # 获取CPU类型
+                if cpu_type == "x86" or cpu_type=="i386" or cpu_type=="ia32":
+                    cpu_type = "i386"
+                if cpu_type=="x86_64" or cpu_type=="x64" or cpu_type=="amd64": 
+                    cpu_type = "amd64"
+                if cpu_type=="arm" or cpu_type=="arm64":
+                    cpu_type = "arm64"
+                file_name = sys_platform[cpu_type]
+
+            if "www" in tools_url:
+                api_url = tools_url.replace("www", "")
+            api_url = tools_url.replace("github.com", "api.github.com/repos") + "/releases/latest"
+
             resp = self.__requsets__(api_url)
             repos_json_obj = resp.json()
             tools_vesion = str(repos_json_obj["tag_name"])
@@ -144,7 +149,7 @@ class Main():
             # 无发布版本忽略
             return
         except AttributeError as e:
-            errmsg= ("访问地址 %s 地址异常，请检查网络或者使用-p参数配置代理后重试!!!" % api_url)
+            errmsg= ("访问地址 %s 地址异常，请检查网络或者使用-p参数配置代理后重试或者使用-t参数追加github token!!!" % api_url)
             raise(CustomException(errmsg))
         except Exception as e:
             raise(e)
@@ -255,7 +260,16 @@ def init():
     if not os.path.exists(tools_path):
         script_tools = os.path.join(os.path.dirname(__file__), "tools.json")
         shutil.copyfile(script_tools, tools_path)
-    
+    else:
+        # 文件存在将最新的tools.json文件替换,并备份旧的配置文件
+        script_tools = os.path.join(os.path.dirname(__file__), "tools.json")
+        tools_mtime = os.path.getmtime(tools_path)
+        script_tools_mtime = os.path.getmtime(script_tools)
+        if script_tools_mtime > tools_mtime:
+            old_script_tools = os.path.join(doc_dir, "tools.json_" + str(tools_mtime))
+            shutil.move(tools_path, old_script_tools) # 备份旧的tools.json文件
+            shutil.copyfile(script_tools, tools_path) # 替换为新的tools.json文件
+
     # 获取全局配置文件信息
     config_dict = None
     with open(config_path, "r" ,encoding="utf-8") as config_file:
