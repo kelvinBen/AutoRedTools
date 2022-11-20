@@ -1,0 +1,4 @@
+click
+PyYAML
+requests
+Beautifulsoup4

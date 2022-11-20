@@ -1,0 +1,27 @@
+#! /usr/bin/python
+# -*- coding: utf-8 -*-
+# Author: kelvinBen
+# Github: https://github.com/kelvinBen/AutoRedTools
+
+
+# 本文件为AutoRedTools的配置文件, 项目地址为：https://github.com/kelvinBen/AutoRedTools
+# 请修改用户目录下的~/Documents/AuoRedTools/config.yml文件，修改脚本下的config.yml文件无效。
+
+# AutoRedTools基于GitHub API，未配置github_token会被GitHub限制速率，会导致部分软件下载失败!!!
+# 注意：yaml配置文件要求，所有的“:”后面都需要跟随一个空格
+# 此配置文件优先级低于命令行配置
+
+# 配置GitHub Token
+# 配置方法：https://docs.github.com/cn/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+github_token: 
+
+# 配置三方代理, 由于某些原因GitHub访问速度较慢，配置代理用于加速GitHub的访问
+  # 目前支持ghproxy/http/https/socks5
+    # ghproxy配置方法: proxy: https://ghproxy.com/
+    # http配置方法: proxy: http://127.0.0.1:7890/
+    # https配置方法: proxy: https://127.0.0.1:7890/
+    # socks5配置方法: proxy: socks5://127.0.0.1:7890/
+proxy: 
+
+
+  
